@@ -4,63 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Obrigado, chefe!</title>
-</head>
-
-<body>
-
-<div class="container">
-    <h1>OBRIGADO, CHEFE #BORA</h1>
-    <h2>Atributos melhorados:</h2>
-
-    <div class="att1">
-        <p class="atributo1">Salário:</p>
-        <p class="up1 green">+40%</p>
-    </div>
-
-    <div class="att2">
-        <p class="atributo2">Gratidão ao chefe:</p>
-        <p class="up2 green">+23%</p>
-    </div>
-
-    <div class="att3">
-        <p class="atributo3">Vontade de se demitir:</p>
-        <p class="up3 red">-32%</p>
-    </div>
-
-    <div class="att4">
-        <p class="atributo4">Mau humor:</p>
-        <p class="up4 red">-14%</p>
-    </div>
-
-    <button id="extra">DAR AUMENTO EXTRA</button>
-</div>
-
-<!-- HUD -->
-<div class="hud">
-    <span class="cargo-hud">
-        Cargo:
-        <span class="aux">Auxiliar de </span>
-        <span class="ti">T.I</span>
-    </span>
-</div>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif">
-        <h3>LEVEL UP!</h3>
-        <p>MISSÃO CONCLUÍDA</p>
-    </div>
-</div>
-
-<!-- AUTO DESTRUIÇÃO -->
-<div id="autoDestroy" class="auto-destroy">
-    <h2>⚠️ ESTA MENSAGEM SE AUTODESTRUIRÁ ⚠️</h2>
-    <p>Encerrando em <span id="count">5</span> segundos...</p>
-</div>
-
-<img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTdsYjBuMzJicWR5cm44d2l0aTF0NW5zZ2RqYTFkNnp2Y2xhdXJ6diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z1jtJsT0R8RTKC2oVJ/giphy.gif"
-class="background">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -75,6 +18,7 @@ body{
     color:white;
 }
 
+/* FUNDO */
 .background{
     position:fixed;
     inset:0;
@@ -83,15 +27,18 @@ body{
     object-fit:cover;
     opacity:.45;
     z-index:-2;
+    transition:opacity .8s ease;
 }
+.background.static{opacity:.45}
+.background.gif{opacity:0;pointer-events:none}
 
+/* CONTAINER */
 .container{
     margin-top:140px;
     padding:20px 40px 60px;
     background:rgba(255,255,255,.25);
     position:relative;
 }
-
 .container::before{
     content:'';
     position:absolute;
@@ -103,9 +50,9 @@ body{
 
 h1,h2{opacity:0;transition:1s}
 h1{color:rgb(255,190,26);font-size:36px}
-h2{color:#fff;font-size:28px;margin-bottom:20px}
+h2{font-size:28px;margin-bottom:20px}
 
-.att1,.att2,.att3,.att4{
+.att1,.att2,.att3,.att4,.att5,.att6,.att7{
     display:flex;
     gap:10px;
     opacity:0;
@@ -113,75 +60,79 @@ h2{color:#fff;font-size:28px;margin-bottom:20px}
     transition:1s;
 }
 
-.atributo1,.atributo2,.atributo3,.atributo4{
+.atributo1,.atributo2,.atributo3,.atributo4,
+.atributo5,.atributo6,.atributo7{
     font-size:26px;
     font-weight:bold;
 }
 
 .green{color:rgb(5,180,5)}
 .red{color:red}
-.up1,.up2,.up3,.up4{opacity:0;font-size:24px}
+
+.up1,.up2,.up3,.up4,.up5,.up6,.up7{
+    opacity:0;
+    font-size:24px;
+}
 
 /* BOTÃO */
-button{
+#extra{
     margin-top:30px;
-    height:52px;
-    font-size:18px;
+    padding:16px 34px;
+    font-size:20px;
     font-weight:900;
-    background:linear-gradient(145deg,#ffcc00,#ff9900);
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:#fff;
+    background:linear-gradient(135deg,#ff9800,#ff5722,#ff9800);
+    background-size:300% 300%;
     border:none;
-    border-radius:14px;
+    border-radius:12px;
     cursor:pointer;
+    position:relative;
+    overflow:hidden;
     opacity:0;
-    box-shadow:0 0 25px gold;
-    transition:.3s;
+    transition:transform .2s, box-shadow .2s;
+    box-shadow:0 0 15px rgba(255,152,0,.6),
+               0 0 30px rgba(255,87,34,.4);
+    animation:btnGlow 3s infinite linear;
 }
-button:hover{transform:scale(1.12)}
+@keyframes btnGlow{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+#extra::before{
+    content:'';
+    position:absolute;
+    top:0;left:-120%;
+    width:120%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.6),transparent);
+    transition:.6s;
+}
+#extra:hover::before{left:120%}
+#extra:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 25px rgba(255,193,7,.9),
+               0 0 50px rgba(255,87,34,.8);
+}
+#extra:active{transform:scale(.95)}
 
 /* HUD */
-.hud{
-    position:fixed;
-    top:20px;
-    right:20px;
-    font-size:16px;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-}
+.hud{position:fixed;top:20px;right:20px}
+.cargo-hud{font-size:18px;font-weight:900}
 
-.cargo-hud{
-    font-weight:900;
-    font-size:18px;
-    color:white; /* apenas o cargo é branco */
-}
-
-.aux, .ti{
-    display:inline-block;
-    color:white; /* somente o cargo */
-}
-
-/* animação cargo */
+/* AUX explode */
+.aux{display:inline-block}
 .aux.remover{
     animation:explode .8s forwards;
     transform-origin:left center;
 }
-
 @keyframes explode{
-    0%{transform:scale(1) rotate(0deg);opacity:1;}
-    25%{transform:scale(1.2) rotate(-10deg);}
-    50%{transform:scale(0.8) rotate(10deg);}
-    75%{transform:scale(1.5) rotate(-20deg);opacity:0;}
-    100%{transform:scale(0) rotate(0deg);opacity:0;}
+    to{transform:scale(0);opacity:0}
 }
 
-.ti.upgrade{
-    animation:moveRight .8s forwards;
-}
-
-@keyframes moveRight{
-    from{transform:translateX(0) scale(1);}
-    to{transform:translateX(-80px) scale(1.2);} /* ajusta posição para colar no Cargo: */
-}
+/* TI */
+.ti{display:inline-block;transition:transform .8s ease}
 
 /* MODAL */
 .modal{
@@ -198,23 +149,6 @@ button:hover{transform:scale(1.12)}
 }
 .modal.show{opacity:1;pointer-events:all}
 
-.modal-content{text-align:center;color:#fff;animation:pop .4s ease}
-.modal-content img{width:200px}
-.modal-content h3{
-    font-size:42px;
-    color:gold;
-    animation:pulse 1s infinite;
-}
-
-@keyframes pop{
-    from{transform:scale(.5);opacity:0}
-    to{transform:scale(1);opacity:1}
-}
-@keyframes pulse{
-    0%,100%{transform:scale(1)}
-    50%{transform:scale(1.1)}
-}
-
 /* AUTO DESTRUIÇÃO */
 .auto-destroy{
     position:fixed;
@@ -228,25 +162,8 @@ button:hover{transform:scale(1.12)}
     pointer-events:none;
     transition:.5s;
     z-index:1000;
-    text-align:center;
 }
-
-.auto-destroy h2{
-    font-size:32px;
-    margin-bottom:15px;
-    color:red; /* <-- garante que fique visível */
-}
-
-.auto-destroy p{
-    font-size:22px;
-    color:white; /* cor do contador */
-}
-
-.auto-destroy.show{
-    opacity:1;
-    pointer-events:all;
-}
-
+.auto-destroy.show{opacity:1;pointer-events:all}
 
 /* CONFETE */
 .confete{
@@ -260,44 +177,76 @@ button:hover{transform:scale(1.12)}
     to{transform:translateY(110vh) rotate(720deg)}
 }
 </style>
+</head>
+
+<body>
+
+<img src="/da-um-aumento-main/imagem/fundo.jpeg" class="background static">
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTl2cWRlemxyZmgzaGo5dXgwbjI2cHYybmpxYjdma2lzY2I4ZTQ3aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8oDwbeUhL0C6IylHD1/giphy.gif" class="background gif">
+
+<div class="container">
+    <h1>OBRIGADO, CHEFE #BORA</h1>
+    <h2>Atributos melhorados:</h2>
+
+    <div class="att1"><p class="atributo1">Salário:</p><p class="up1 green">+40%</p></div>
+    <div class="att2"><p class="atributo2">Gratidão ao chefe:</p><p class="up2 green">+23%</p></div>
+    <div class="att3"><p class="atributo3">Vontade de se demitir:</p><p class="up3 red">-32%</p></div>
+    <div class="att4"><p class="atributo4">Mau humor:</p><p class="up4 red">-14%</p></div>
+    <div class="att5"><p class="atributo5">Atenção aos chamados:</p><p class="up5 green">+10%</p></div>
+    <div class="att6"><p class="atributo6">Disposição para plantão:</p><p class="up6 green">+25%</p></div>
+    <div class="att7"><p class="atributo7">Resolução de problemas:</p><p class="up7 green">+5%</p></div>
+
+    <button id="extra">DAR AUMENTO EXTRA</button>
+</div>
+
+<div class="hud">
+    <span class="cargo-hud">
+        Cargo Atual:
+        <span class="aux">Auxiliar de </span>
+        <span class="ti">T.I</span>
+    </span>
+</div>
+
+<div id="modal" class="modal">
+    <div>
+        <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif">
+        <h3>LEVEL UP!</h3>
+        <p>MISSÃO CONCLUÍDA</p>
+    </div>
+</div>
+
+<div id="autoDestroy" class="auto-destroy">
+    <h2>⚠️ ESTA MENSAGEM SE AUTODESTRUIRÁ ⚠️</h2>
+    <p>Encerrando em <span id="count">5</span> segundos...</p>
+</div>
 
 <script>
 const h1=document.querySelector("h1");
 const h2=document.querySelector("h2");
-const up1=document.querySelector(".up1");
-const up2=document.querySelector(".up2");
-const up3=document.querySelector(".up3");
-const up4=document.querySelector(".up4");
 const extra=document.getElementById("extra");
-
+const ups=[...document.querySelectorAll("[class^='up']")];
 const aux=document.querySelector(".aux");
 const ti=document.querySelector(".ti");
-
 const modal=document.getElementById("modal");
 const autoDestroy=document.getElementById("autoDestroy");
 const countEl=document.getElementById("count");
-const xpEl=document.getElementById("xp");
 
-function show(sel){
-    const el=document.querySelector(sel);
+function show(el){
     el.style.opacity=1;
     el.style.transform="translateX(0)";
 }
 
-function animation(){
+setTimeout(()=>{
     h1.style.opacity=1;
     setTimeout(()=>h2.style.opacity=1,300);
-    setTimeout(()=>show('.att1'),500);
-    setTimeout(()=>show('.att2'),1000);
-    setTimeout(()=>show('.att3'),1500);
-    setTimeout(()=>show('.att4'),2000);
-    setTimeout(()=>up1.style.opacity=1,3000);
-    setTimeout(()=>up2.style.opacity=1,4000);
-    setTimeout(()=>up3.style.opacity=1,5000);
-    setTimeout(()=>up4.style.opacity=1,6000);
-    setTimeout(()=>extra.style.opacity=1,7000);
-}
-setTimeout(animation,100);
+    document.querySelectorAll("[class^='att']").forEach((att,i)=>{
+        setTimeout(()=>show(att),600+i*500);
+    });
+    ups.forEach((up,i)=>{
+        setTimeout(()=>up.style.opacity=1,4500+i*500);
+    });
+    setTimeout(()=>extra.style.opacity=1,9000);
+},100);
 
 function confete(){
     for(let i=0;i<80;i++){
@@ -311,33 +260,43 @@ function confete(){
 }
 
 extra.addEventListener("click",()=>{
-    // 1️⃣ explode Auxiliar de
+    const DURACAO_GIF=5000;
+
+    const staticBg=document.querySelector(".background.static");
+    const gifBg=document.querySelector(".background.gif");
+
+    staticBg.style.opacity=0;
+    gifBg.style.opacity=.45;
+
+    gifBg.src=gifBg.src;
+
+    const auxRect=aux.getBoundingClientRect();
+    const tiRect=ti.getBoundingClientRect();
+    const deltaX=auxRect.left-tiRect.left;
+
     aux.classList.add("remover");
 
-    // 2️⃣ move T.I para colar no Cargo:
-    setTimeout(()=>ti.classList.add("upgrade"),800);
+    setTimeout(()=>{
+        ti.style.transform=`translateX(${deltaX}px) scale(1.25)`;
+    },300);
 
-    // 3️⃣ abre modal após 1.5s
     setTimeout(()=>{
         modal.classList.add("show");
         confete();
-        xpEl.textContent=100;
-    },1500);
+    },DURACAO_GIF);
 
-    // 4️⃣ auto destruição
     setTimeout(()=>{
         autoDestroy.classList.add("show");
         let c=5;
         countEl.textContent=c;
         const t=setInterval(()=>{
-            c--;
-            countEl.textContent=c;
+            countEl.textContent=--c;
             if(c===0){
                 clearInterval(t);
                 location.href="about:blank";
             }
         },1000);
-    },4000);
+    },DURACAO_GIF+3500);
 });
 </script>
 
